@@ -1,0 +1,55 @@
+{% extends "site/base_avarun.html" %}
+{% block home_img %}
+<!-- place occupition for navbar -->
+{#<br><br>#}
+<!-- place occupition end -->
+  <div class = "d-none d-lg-block w-100" style="height:400px;background-image:url('/static/site/img/milkway_3.jpg');background-size:cover;background-position:50% 50%;">
+  <h1 style="text-align: center;color:#FFFFFF;">
+  <br><br>
+   数据分析 辅助企业经营决策<br>人工智能 构建全新企业应用
+  </h1>
+  </div>
+{% endblock home_img %}
+
+{% block content %}
+  <div class="row no-gutters border border-white">
+    <div class="col-sm border border-white" style="height:240px;">
+       <div class="media" style="padding:15%;">
+         <a href=# class="align-self-start mr-3" style="width:25%;">
+         {#<a href={% url "analytics_R:index" %} class="align-self-start mr-3" style="width:25%;">#}
+         <img style="width:100%;" src='/static/site/img/analysis.png' alt="Generic placeholder image">
+         </a>
+         <div class="media-body">
+           <h5 class="mt-0">数据模型</h5>
+           <p class="mb-0">使用人工智能，机器学习模型构建企业应用</p>
+         </div>
+       </div>
+    </div>
+    <div class="col-sm border border-white" style="height:240px;">
+        <div class="media" style="padding:15%;">
+         <a href=# class="align-self-start mr-3" style="width:25%;">
+         {#<a href="/modeling/" class="align-self-start mr-3" style="width:25%;"> #}
+         <img  style="width:100%;" src='/static/site/img/stock.png' alt="Generic placeholder image">
+         </a>
+         <div class="media-body">
+           <h5 class="mt-0">数据可视化</h5>
+           <p class="mb-0">直观易懂的图表展示辅助经营决策 </p>
+         </div>
+       </div> 
+    </div>
+    <div class="col-sm border border-white" style="height:240px;">
+         <div class="media" style="padding:15%;">
+         <a href=#  class="align-self-start mr-3" style="width:25%;">
+         {#<a href={% url "stocksdemo:index" %} class="align-self-start mr-3" style="width:25%;">#}
+         <img style="width:100%" src='/static/site/img/learning.png' alt="Generic placeholder image">
+         </a>
+         <div class="media-body">
+           <h5 class="mt-0">企业案例</h5>
+           <p class="mb-0">不同行业数据应用案例分析 </p>
+         </div>
+       </div> 
+    </div>
+  </div>
+{% endblock content %}
+
+

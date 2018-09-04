@@ -1,0 +1,21 @@
+{% extends "site/base_avarun.html" %}
+{% block breadcrumbs %}
+<nav class="" aria-label="breadcrumb">
+  <ol class="breadcrumb mb-0">
+    <li class="breadcrumb-item"><a href="/">首页</a></li>
+    <li class="breadcrumb-item active" aria-current="page">建设中……</li>
+  </ol>
+</nav>
+{% endblock breadcrumbs %}
+
+{% block content%}
+<div class="row justify-content-center">
+{% block sidebar %}
+{#{% include "analytics_R/sidebar.html" %}#}
+{% endblock sidebar %}
+<div class="col-md-8">
+
+<h3>这部分内容努力建设中……！</h3>
+</div>
+</div>
+{% endblock %}

@@ -1,0 +1,119 @@
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #417690" >
+{#<nav class="navbar fixed-top navbar-expand-lg navbar-dark" style="background-color: #417690" >#}
+  <a class="navbar-brand" href="/">AVARUN</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item invisible">
+        <a class="nav-link" href="/">首页 <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle{% if 'analytics' in request.path_info %} active{% endif %}" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          工具学习
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href=# >R 教程</a>
+          {#<a class="dropdown-item" href={% url "analytics_R:index" %}>R 教程</a>#}
+          <a class="dropdown-item" href="/in_progress/">Python 教程</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#">其他</a>
+        </div>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle{% if 'modeling' in request.path_info %} active{% endif %}" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          数据建模
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href=# >线性优化</a>
+          <a class="dropdown-item" href=# >数据模拟</a>
+          {#<a class="dropdown-item" href={% url "modeling:simulation" %}>数据模拟</a>#}
+          <a class="dropdown-item" href=# >回归预测</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href=# >其他</a>
+        </div>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle{% if '/stocksdemo/' in request.path_info %} active{% endif %}" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          股指预测
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href= # >上证指数 预测</a>
+          <a class="dropdown-item" href= # >S&P500 预测</a>
+         {# <a class="dropdown-item" href= {% url "stocksdemo:SP" %}>S&P500 预测</a> #}
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href= # >其他</a>
+        </div>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link{% if '/polls/' in request.path_info %} active{% endif %}" href=# >其他</a>
+      </li>
+{% comment %}
+      <li class="nav-item">
+        <a class="nav-link disable invisible" href={% url 'login' %}?next={{ request.path_info }}>Account Login</a>
+      </li>
+{% endcomment %}
+    </ul>
+
+    <ul class="navbar-nav pull-right">
+    {% if user.is_authenticated %}
+       <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          {{user.username}}
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href=# >Logout</a>
+          {#<a class="dropdown-item" href={% url 'logout_view' %}>Logout</a>#}
+          <a class="dropdown-item" href=# >Change Password</a>
+          {#<a class="dropdown-item" href={% url 'password_change' %}>Change Password</a>#}
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#">Something else here</a>
+        </div>
+      </li>
+    {% else %} 
+       <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown_login" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          登录
+        </a>
+            <div class="dropdown-menu">
+              <form class="px-4 py-3" method ="post">
+              {% csrf_token %}
+                <div class="form-group">
+{#                  <label for="exampleDropdownFormEmail1">Email address</label>  #}
+{#                  <input type="email" class="form-control" id="exampleDropdownFormEmail1" placeholder="email@example.com">   #}
+                {{ login_form.username.errors}}
+                {{ login_form.username.label_tag }}
+                {{ login_form.username }}
+                </div>
+                <div class="form-group">
+{#                  <label for="exampleDropdownFormPassword1">Password</label>    #}
+{#                  <input type="password" class="form-control" id="exampleDropdownFormPassword1" placeholder="Password">   #}
+                {{ login_form.password.errors}}
+                {{ login_form.password.label_tag }}
+                {{ login_form.password }}
+                </div>
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" id="dropdownCheck">
+                  <label class="form-check-label" for="dropdownCheck">
+                    Remember me
+                  </label>
+                </div>
+                <button type="submit" class="btn btn-primary">Sign in</button>
+              </form>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="#">New around here? Sign up</a>
+              <a class="dropdown-item" href="#">Forgot password?</a>
+            </div>
+      </li>
+    {% endif %}
+      <li class="nav-item">
+        <a class="nav-link" href="/admin/">管理</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+<!-- end navbar -->
+ 

@@ -1,0 +1,116 @@
+{% extends "site/base_avarun.html" %}
+
+{% block extrastyle %}
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+    border:thin solid rgba(0,0,0,0.1);
+    padding:15px;
+  }
+</style>
+<style type="text/css">
+  code{white-space: pre;}
+  .r {background-color: rgba(0,0,0,0.06);
+      border:thin solid rgba(0,0,0,0.1);
+      padding:15px;
+     }
+ .main-txt img {height:auto;}
+</style>
+
+<script defer src="/static/site/js/all.min.js"></script>
+{#<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.min.js"></script>#}
+
+{% comment %} 
+<link rel="stylesheet" type="text/css" href="https://cdn.pydata.org/bokeh/release/bokeh-0.12.16.min.css" />
+<link rel="stylesheet" type="text/css" href="https://cdn.pydata.org/bokeh/release/bokeh-widgets-0.12.16.min.css" />
+<link rel="stylesheet" type="text/css" href="https://cdn.pydata.org/bokeh/release/bokeh-tables-0.12.16.min.css" />
+{% endcomment %}
+
+<link rel="stylesheet" type="text/css" href="/static/site/css/bokeh-0.12.16.min.css" />
+<link rel="stylesheet" type="text/css" href="/static/site/css/bokeh-widgets-0.12.16.min.css" />
+<link rel="stylesheet" type="text/css" href="/static/site/css/bokeh-tables-0.12.16.min.css" />
+
+{% comment %}
+<script type="text/javascript" src="https://cdn.pydata.org/bokeh/release/bokeh-0.12.16.min.js"></script>
+<script type="text/javascript" src="https://cdn.pydata.org/bokeh/release/bokeh-widgets-0.12.16.min.js"></script>
+<script type="text/javascript" src="https://cdn.pydata.org/bokeh/release/bokeh-tables-0.12.16.min.js"></script>
+<script type="text/javascript" src="https://cdn.pydata.org/bokeh/release/bokeh-api-0.12.16.min.js"></script>
+{% endcomment %}
+
+
+<script type="text/javascript" src="/static/site/js/bokeh-0.12.16.min.js"></script>
+<script type="text/javascript" src="/static/site/js/bokeh-widgets-0.12.16.min.js"></script>
+<script type="text/javascript" src="/static/site/js/bokeh-tables-0.12.16.min.js"></script>
+<script type="text/javascript" src="/static/site/js/bokeh-api-0.12.16.min.js"></script>
+
+{% endblock extrastyle %}
+
+{% block content%}
+{#<div class="row">#}
+<div class="sidebar-left col-md-2"> 
+{% block sidebar %}
+{% include "shdky/sidebar.html" %}
+{% endblock sidebar %}
+</div>
+
+<div class="row main-txt justify-content-center">
+{#<div class="col-md-2"></div> #}
+<div class="col-md-8 justify-self-center" {#style=“position:absolute;overflow-y:auto;height:550px;"#}>
+<div class="d-none d-lg-block w-100">
+{% block breadcrumbs %}
+<nav class="" aria-label="breadcrumb">
+  <ol class="breadcrumb mb-0">
+    <li class="breadcrumb-item"><a href="/">首页</a></li>
+    <li class="breadcrumb-item active" aria-current="page">分析工具-R</li>
+  </ol>
+</nav>
+{% endblock breadcrumbs %}
+</div>
+
+{% block main_txt_area %}
+
+<div id="header">
+<br>
+<h1 class="title">特别感谢！</h1>
+</div>
+
+<hr />
+<p>本站R分析工具学习的内容译自 Professor Karsten Hansen（Rady School of Managment,UCSD）的教学内容，原文请参考<a href="http://lab.rady.ucsd.edu/sawtooth/RAnalytics/index.html">http://lab.rady.ucsd.edu/sawtooth/RAnalytics/index.html</a></p>
+<p>另：本站部分内容还在编写中，可能会调整部分结构和内容，并采用不同的页面风格，请与理解，谢谢！</p>
+{#{% include "modeling/range_slider.html" %}#}
+{#<p>{% if not slider_value %}No slider values are transmitted {% else %}{{ slider_value }}{% endif %} </p>#}
+{% endblock main_txt_area %}
+</div>
+</div>
+
+{#</div>#}
+{% endblock content %}
+{% block extra_jscode %}
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    $('nav.collapse').on('hidden.bs.collapse', function () {
+      $("a[aria-expanded='false']")
+        .find('[data-fa-i2svg]')
+        .toggleClass('fa-angle-down');
+    });
+    $('nav.collapse').on('shown.bs.collapse', function () {
+      $("a[aria-expanded='true']")
+        .find('[data-fa-i2svg]')
+        .toggleClass('fa-angle-up');
+    });
+ });
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+{% endblock extra_jscode %}
+
+

@@ -1,0 +1,92 @@
+{% extends "shdky/index.html" %}
+{% load static %}
+{% block bokeh_script %}
+{#{% if not script %}No script values are transmitted {% else %}{{ script|safe }}{% endif %}#}
+{% endblock bokeh_script %}
+
+
+{% block main_txt_area %}
+
+<br>
+<br>
+<div>
+        <input type="file" name="file" id="file_upload">
+{#        <input type="button" value="上传" onclick="FileUpload()"> #}
+        <button type="button"  id="btn2" class="btn btn-info" onclick="FileUpload()" >upload</button>
+</div>
+
+
+<br>
+<br>
+<div id = "div2"> </div>
+
+<br>
+<br>
+<button type="button"  id="btn1" class="btn btn-info" disabled >计算</button>
+</br><br><br>
+
+<div id = "div1"> </div>
+{#{% if not div %}No div values are transmitted {% else %}{{ div|safe }}{% endif %}#}
+{#{% include "modeling/simulation_bokeh.html" %}#}
+{% endblock main_txt_area %}
+
+{% block extra_jscode %}
+{{ block.super}}
+<script src="/static/site/js/jquery-3.3.1.min.js"></script>
+
+{% comment %}
+<script>
+$(document).ready(function(){
+  $("button").click(function(){
+    $("#div1").load("/static/shdky/v_simu_png.html");
+  });
+});
+</script>
+{% endcomment %}
+</script>
+
+
+<script>
+    function FileUpload() {
+            var form_data = new FormData();
+            var file_info =$( '#file_upload')[0].files[0];
+            form_data.append('csrfmiddlewaretoken','{{ csrf_token }}')
+            form_data.append('file',file_info);
+            if(file_info==undefined){//暂且不许要判断是否有附件
+                alert("你没有选择任何文件");
+                return false;
+            };
+            //$.ajaxSetup({
+            //    data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
+            //});
+            $.ajax({
+                url:'/shdky/v_simu_upload_ajax',
+                type:'POST',
+                data: form_data,
+                processData: false,  // tell jquery not to process the data
+                contentType: false, // tell jquery not to set contentType
+                success: function(result) {
+                    //alert(result);
+                    $("#div2").html("文件上传成功");
+                    $("#btn1").removeAttr("disabled")
+                    console.log('ok');
+                },
+                error: function(xhr,status,error){
+                    alert("xhr: " + xhr.statusText + "\n状态: " + status + "\nerror: " + error);
+                   // alert(error)
+                    }
+            });
+
+           };
+</script>
+
+<script>
+$("#btn1").click(function(){
+  $.get("/shdky/v_simu_table",function(data,status){
+   // alert("数据: " + data + "\n状态: " + status);
+     $("#div1").html(data);
+  });
+});
+</script>
+{% endblock extra_jscode %}
+

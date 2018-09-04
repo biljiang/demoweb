@@ -1,0 +1,117 @@
+<!-- Sidebar -->
+{% block nav-links %}
+<style>
+#sidebar-left a.nav-link.active {background-color:rgba(0,0,0,0.1);}
+</style>
+<nav id="sidebar-left" class="">
+      <nav class="nav p-2 border-bottom w-100 justify-content-around">
+        <a class="navbar-brand" href="#">目录</a>
+      <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+      <i class="fa fa-bars"></i>
+      </button>
+      </nav>
+
+      <div class="collapse d-lg-block" id="navbarContent">  
+      <nav class="nav-item">
+        {% if "v_tran_simu" in request.path_info or "v_simu" in request.path_info %}
+        <a class="nav-link" href="#" id="navbarCollapseZero" role="button" data-toggle="collapse" data-target="#collapseZero" aria-expanded="true" aria-controll="collapseZero">
+          <i class="fa fa-angle-up"></i>电压拟合
+        </a>
+        <nav class="collapse show" id="collapseZero" aria-labelledby="navbarCollapseZero" data-parent="#navbarContent">
+        {% else %}
+        <a class="nav-link" href="#" id="navbarCollapseZero" role="button" data-toggle="collapse" data-target="#collapseZero" aria-expanded="false" aria-controll="collapseZero">
+          <i class="fa fa-angle-down"></i>电压拟合
+        </a>
+        <nav class="collapse" id="collapseZero" aria-labelledby="navbarCollapseZero" data-parent="#navbarContent">
+        {% endif %}
+          <a class="nav-link ml-3{% if 'v_tran_simu' in request.path_info %} active{% endif %}" href={% url "shdky:VTrainSimu" %}>训练数据拟合</a>
+          <a class="nav-link ml-3{% if 'v_simu' in request.path_info %} active{% endif %}" href={% url "shdky:VSimu" %}>输入数据拟合</a>
+        </nav>
+      </nav>
+
+      <nav class="nav-item">
+        {% if "data_transformation" in request.path_info or "group_summaries" in request.path_info or "tidy_data" in request.path_info %}
+        <a class="nav-link" href="#" id="navbarCollapseOne" role="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controll="collapseOne">
+           <i class="fa fa-angle-up"></i>电流拟合
+        </a>
+        <nav class="collapse show" id="collapseOne" aria-labelledby="navbarCollapseOne" data-parent="#navbarContent">
+       {% else %}
+        <a class="nav-link collapsed" href="#" id="navbarCollapseOne" role="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controll="collapseOne">
+           <i class="fa fa-angle-down"></i>电流拟合
+        </a>
+        <nav class="collapse" id="collapseOne" aria-labelledby="navbarCollapseOne" data-parent="#navbarContent">
+       {% endif %}
+          <a class="nav-link ml-3{% if "data_transformation" in request.path_info %} active{% endif %}" href="{% url "shdky:index" %}">训练数据拟合</a>
+          <a class="nav-link ml-3{% if "group_summaries" in request.path_info %} active{% endif %}" href="{% url "shdky:index" %}">输入数据拟合</a>
+          <a class="nav-link ml-3{% if "tidy_data" in request.path_info %} active{% endif %}" href="{% url "shdky:index" %}">Tidy Data</a>
+        </nav>
+      </nav>
+      <nav class="nav-item"> 
+        {% if "visualization" in request.path_info or "/maps/" in request.path_info or "/interactive_maps/" in request.path_info %}
+        <a class="nav-link" href="#" id="navbarCollapseTwo" role="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controll="collapseTwo">
+          <i class="fa fa-angle-up"></i>数据可视化
+        </a>
+        <nav class="collapse show" id="collapseTwo" aria-labelledby="navbarCollapseTwo" data-parent="#navbarContent">
+        {% else %}
+        <a class="nav-link collapsed" href="#" id="navbarCollapseTwo" role="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controll="collapseTwo">
+          <i class="fa fa-angle-down"></i>数据可视化
+        </a>
+        <nav class="collapse" id="collapseTwo" aria-labelledby="navbarCollapseTwo" data-parent="#navbarContent">
+        {% endif %}
+          <a class="nav-link ml-3{% if "visualization" in request.path_info %} active{% endif %}" href="{% url "shdky:index" %}">使用“ggplot2" </a>
+          <a class="nav-link ml-3{% if "/maps/" in request.path_info %} active{% endif %}" href="{% url "shdky:index" %}">地图制作</a>
+          <a class="nav-link ml-3{% if "interactive_maps" in request.path_info %} active{% endif %}" href="{% url "shdky:index" %}">交互式可视化</a>
+        </nav>
+      </nav>
+      <nav class="nav-item">
+        {% if "linear_models" in request.path_info or "logit_models" in request.path_info %}
+        <a class="nav-link" href="#" id="navbarCollapseThree" role="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controll="collapseThree">
+          <i class="fa fa-angle-up"></i>预测
+        </a>
+        <nav class="collapse show" id="collapseThree" aria-labelledby="navbarCollapseThree" data-parent="#navbarContent">
+        {% else %}
+        <a class="nav-link collapsed" href="#" id="navbarCollapseThree" role="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controll="collapseThree">
+          <i class="fa fa-angle-down"></i>预测
+        </a>
+        <nav class="collapse" id="collapseThree" aria-labelledby="navbarCollapseThree" data-parent="#navbarContent">
+        {% endif %}
+          <a class="nav-link ml-3{% if "linear_models" in request.path_info %} active{% endif %}" href= "{% url "shdky:index" %}">线性回归 </a>
+          <a class="nav-link ml-3{% if "logit_models" in request.path_info %} active{% endif %}" href= "{% url "shdky:index" %}">逻辑回归</a>
+        </nav>
+      </nav>
+      <nav class="nav-item">
+        {% if "k_means" in request.path_info or "classification" in request.path_info %}
+        <a class="nav-link" href="#" id="navbarCollpaseFour" role="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="true" aria-control="collapseFour">
+          <i class="fa fa-angle-up"></i>聚类
+        </a>
+        <nav class="collapse show" id="collapseFour" aria-labelledby="navbarCollapseFour" data-parent="#navbarContent">
+        {% else %}
+        <a class="nav-link collapsed" href="#" id="navbarCollpaseFour" role="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-control="collapseFour">
+          <i class="fa fa-angle-down"></i>聚类
+        </a>
+        <nav class="collapse" id="collapseFour" aria-labelledby="navbarCollapseFour" data-parent="#navbarContent">
+        {% endif %}
+          <a class="nav-link ml-3{% if "k_means" in request.path_info %} active{% endif %}" href= "{% url "shdky:index" %}">k-means </a>
+          <a class="nav-link ml-3{% if "classification" in request.path_info %} active{% endif %}" href= "{% url "shdky:index" %}">分类和数据降维</a>
+        </nav>
+      </nav>
+      <nav class="nav-item">
+        {% if "text_intro" in request.path_info or "corpus_summary" in request.path_info %}
+        <a class="nav-link" href="#" id="navbarCollapseFive" role="button" data-toggle="collapse" data-target="#collapseFive" aria-expanded="true" aria-control="collapseFive">
+          <i class="fa fa-angle-up"></i>文本挖掘
+        </a>
+        <nav class="collapse show" id="collapseFive" aria-labelledby="navbarCollapseFive" data-parent="#navbarContent">
+        {% else %}
+        <a class="nav-link collapsed" href="#" id="navbarCollapseFive" role="button" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-control="collapseFive">
+          <i class="fa fa-angle-down"></i>文本挖掘
+        </a>
+        <nav class="collapse" id="collapseFive" aria-labelledby="navbarCollapseFive" data-parent="#navbarContent">
+        {% endif %}
+          <a class="nav-link ml-3{% if "text_intro" in request.path_info %} active{% endif %}" href= "{% url "shdky:index" %}">文本数据 </a>
+          <a class="nav-link ml-3{% if "corpus_summary" in request.path_info %} active{% endif %}" href= "{% url "shdky:index" %}">汇总语料库</a>
+          <a class="nav-link ml-3" href="{% url "shdky:index" %}">情感分析</a>
+        </nav>
+      </nav>
+      </div>
+</nav>
+{% endblock %}

@@ -1,0 +1,113 @@
+{% load i18n static %}<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+{% get_current_language as LANGUAGE_CODE %}{% get_current_language_bidi as LANGUAGE_BIDI %}
+<html lang="{{ LANGUAGE_CODE|default:"en-us" }}" {% if LANGUAGE_BIDI %}dir="rtl"{% endif %}>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<title>{% block title %}Welcome to AVARUN--数据分析，预测，优化，智能决策！{% endblock %}</title>
+<link rel="stylesheet" type="text/css" href="{% block stylesheet %}{% static "site/css/bootstrap.min.css" %}{% endblock %}" />
+<link rel="stylesheet" href="{% static 'site/css/font-awesome.min.css' %}" />
+<style type="text/css">
+   body {
+        padding-bottom:40px;
+        }
+</style>
+{% if LANGUAGE_BIDI %}<link rel="stylesheet" type="text/css" href="{% block stylesheet_rtl %}{% static "admin/css/rtl.css" %}{% endblock %}" />{% endif %}
+{% block extrahead %}{% endblock %}
+{% block blockbots %}<meta name="robots" content="NONE,NOARCHIVE" />{% endblock %}
+{% block extrastyle %}{% endblock %}
+{% block bokeh_script %}{% endblock bokeh_script %}
+</head>
+{% load i18n %}
+
+<body class="{% if is_popup %}popup {% endif %}{% block bodyclass %}{% endblock %}"
+  style = "background-color: #F5F5F5" data-admin-utc-offset="{% now "Z" %}">
+
+<!-- Container -->
+<div id="container">
+
+    {% if not is_popup %}
+
+    {% block navbar %}
+    {% include "site/navbar_home.html" %}
+    {% endblock navbar %}
+
+    {% comment %}
+    <div class="d-none d-lg-block w-100">
+    {% block breadcrumbs %}
+    <div class="breadcrumbs">
+        <a href="{% url 'root_index' %}">{% trans 'Home' %}</a>
+        {% if title %} &rsaquo; {{ title }}{% endif %}
+    </div>
+    {% endblock %}
+    </div>
+    {% endcomment %}
+
+    {% endif %}
+
+    {% block messages %}
+    {% comment %}
+        {% if messages %}
+        <ul class="messagelist">{% for message in messages %}
+          <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message|capfirst }}</li>
+        {% endfor %}</ul>
+        {% endif %}
+    {% endcomment %}
+    {% endblock messages %}
+    
+    {% block home_img %}
+    {% endblock home_img %}
+
+    <!-- Content -->
+    <div id="content" class="{% block coltype %}colM{% endblock %}">
+        {% block sidebar_left %}{% endblock %}
+        {% block pretitle %}{% endblock %}
+        {% block content_title %}{% if title %}<h1>{{ title }}</h1>{% endif %}{% endblock %}
+        {% block content %}
+        {% block object-tools %}{% endblock %}
+        {{ content }}
+        {% endblock content %}
+        {% block sidebar_right %}{% endblock %}
+        <br class="clear" />
+    </div>
+    <!-- END Content -->
+
+{% block footer %}
+   <div class="row">
+   <div class="col w-100">
+            <h5 style="text-align:center;">
+            <small>Copyright © 2017-2018 AVARUN 版权所有 |</small>
+            <small><a href="mailto:biljiang@outlook.com">Contact</a></small> 
+            </h5>
+   </div>
+   </div>
+{% endblock footer %}
+</div>
+<!-- END Container -->
+
+{% block jscode %}
+
+<script src="/static/site/js/jquery-3.3.1.slim.min.js"></script>
+<script src="/static/site/js/popper.min.js"></script>
+<script src="/static/site/js/bootstrap.min.js"></script>
+<script>
+  $(document).ready(function () {
+    if ($(window).width()> 991){
+    $("nav.navbar").addClass("fixed-top");
+    $("body").css("padding-top","55px");
+    $("div .main-txt").css("padding-top","0px");
+    $("div .sidebar-left").css("position","fixed")}
+    else {
+    $(".main-txt img").css("width","100%")};
+    });
+</script>
+
+{#<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-MML-AM_CHTML' async></script>#}
+{% endblock jscode %}
+{% block extra_jscode %}
+{% endblock %}
+
+</body>
+</html>
