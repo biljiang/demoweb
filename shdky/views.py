@@ -14,6 +14,7 @@ import keras
 from keras.models import load_model
 import matplotlib.pyplot as plt
 
+from license_check.license_chk import license_check, lic_loc_chk
 #@login_required
 #def index(request):
 #    return HttpResponse("Hello, world. You're at the polls index.")
@@ -21,6 +22,11 @@ import matplotlib.pyplot as plt
 
 class IndexView(TemplateView):
     template_name='shdky/index.html'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['license_chk_message'] = license_check()
+        context['lic_loc_chk_msg'] = lic_loc_chk()
+        return context
 
 
 class VTrainSimuView(TemplateView):
