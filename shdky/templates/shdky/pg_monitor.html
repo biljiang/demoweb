@@ -1,0 +1,14 @@
+{% extends "shdky/index.html" %}
+{% block bokeh_script %}
+{% if not script %}No script values are transmitted {% else %}{{ script|safe }}{% endif %}
+{% endblock bokeh_script %}
+
+
+{% block main_txt_area %}
+</br>
+<a href="{% url "shdky:VTrainSimu" %}" class="btn btn-info btn-lg active" role="button" aria-pressed="true">机组监控</a>
+{% if not div %}No div values are transmitted {% else %}{{ div|safe }}{% endif %}
+{#{% include "modeling/simulation_bokeh.html" %}#}
+{% endblock main_txt_area %}
+
+
