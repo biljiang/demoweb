@@ -92,6 +92,34 @@ class VSimuView(TemplateView):
     template_name='shdky/v_simu.html'
 
 
+class PGMonitor(TemplateView):
+    template_name='shdky/pg_monitor.html'
+    from bokeh.layouts import column
+    from bokeh.models import CustomJS, ColumnDataSource, Slider, CDSView, IndexFilter, HoverTool
+    from bokeh.plotting import Figure, output_file, show
+    from bokeh.embed import components
+    from bokeh.models.sources import AjaxDataSource
+    #source = AjaxDataSource(data_url='https://182.150.63.68:10443/static/test.json',method='GET') # failed
+    #source = AjaxDataSource(data_url='http://localhost:9090/static/test.json',method='GET') # failed, it seems unsuccessful when serving files directly
+    source = AjaxDataSource(data_url='https://182.150.63.68:10443/shdky/pg_ajax',method="GET",polling_interval=5000)
+    #data = {
+    #    'x' : [1, 2, 3],
+    #    'y' : [9, 3, 2]
+    #    }
+    #source = ColumnDataSource(data=data)    
+    p = Figure(plot_width=800, plot_height=300,x_axis_type="datetime")
+    p.line('time', 'AMBIENT_TEMPERATURE', source=source, line_width=2, line_alpha=0.3, line_color="red")
+    layout = column(p)
+    script,div = components(layout)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['script'] = self.script
+        context['div'] = self.div
+        return context
+
+
+
 
 
 def upload_ajax(request):
@@ -118,4 +146,18 @@ def v_simu_table(request):
     df.to_html(tb)
     return HttpResponse(tb.getvalue())
 
+def pg_ajax(request):
+#    if request.method == 'POST':
+    import json
+#    J={ 'x' : [np.random.randint(5), np.random.randint(5), np.random.randint(5)],
+#        'y' : [np.random.randint(3), np.random.randint(3), np.random.randint(3)]}
+#    J={'x' : [1, 2, 3],'y' : [9, 3, 2]}
+    df = pd.read_csv('/home/techstar/demoweb/static/powerplant.csv',index_col=0)
+    df.index=pd.to_datetime(df.index)
+    df['time']=pd.to_datetime(df.index)
+    df['time']=df['time'].apply(lambda x: x.value/1000000)
+    J = {S: list(df[S].values) for S in df}
+    return HttpResponse(json.dumps(J))
+#    return HttpResponse('Get method used or somthing wrong')
+ 
 

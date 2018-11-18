@@ -9,5 +9,7 @@ urlpatterns = [
     path('v_simu', views.VSimuView.as_view(), name='VSimu'),
     path('v_simu_table', views.v_simu_table, name='VSimuTable'),
     path('v_simu_upload_ajax', views.upload_ajax, name='VSimuFileupload'),
+    path('pg_monitor', views.PGMonitor.as_view(), name='PGMonitor'),
+    path('pg_ajax', views.pg_ajax, name='PGAjax'),
 #    path('', views.index, name='index'),
 ]
