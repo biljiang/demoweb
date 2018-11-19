@@ -15,6 +15,15 @@ from keras.models import load_model
 import matplotlib.pyplot as plt
 
 from license_check.license_chk import license_check, lic_loc_chk
+
+G_inv = np.load("/home/techstar/demoweb/static/shdky/G_inv.npy")
+status_matrix = np.load("/home/techstar/demoweb/static/shdky/status_matrix.npy")
+T_min_max=pd.read_csv("/home/techstar/demoweb/static/shdky/T_min_max.csv",index_col=0,float_precision="round_trip")
+
+
+
+
+
 #@login_required
 #def index(request):
 #    return HttpResponse("Hello, world. You're at the polls index.")
@@ -109,6 +118,8 @@ class PGMonitor(TemplateView):
     #source = ColumnDataSource(data=data)    
     p = Figure(plot_width=800, plot_height=300,x_axis_type="datetime")
     p.line('time', 'AMBIENT_TEMPERATURE', source=source, line_width=2, line_alpha=0.3, line_color="red")
+    p.line('time', 'AMBIENT_TEMPERATURE_simu', source=source, line_width=2, line_alpha=0.3, line_color="blue")
+    p.line('time', 'AMBIENT_TEMPERATURE_dif', source=source, line_width=2, line_alpha=0.3, line_color="yellow")
     layout = column(p)
     script,div = components(layout)
 
@@ -152,11 +163,33 @@ def pg_ajax(request):
 #    J={ 'x' : [np.random.randint(5), np.random.randint(5), np.random.randint(5)],
 #        'y' : [np.random.randint(3), np.random.randint(3), np.random.randint(3)]}
 #    J={'x' : [1, 2, 3],'y' : [9, 3, 2]}
-    df = pd.read_csv('/home/techstar/demoweb/static/powerplant.csv',index_col=0)
+#### read dynamic dataframe as T
+    df = pd.read_csv('/home/techstar/demoweb/static/shdky/powerplant.csv',index_col=0)
     df.index=pd.to_datetime(df.index)
-    df['time']=pd.to_datetime(df.index)
-    df['time']=df['time'].apply(lambda x: x.value/1000000)
-    J = {S: list(df[S].values) for S in df}
+
+
+#### compute simu_values with status_matrix,T_ min_max and G_inv
+    T_MIN = T_min_max.T_min; T_MAX = T_min_max.T_max
+    df_normal = (df-T_MIN)/(T_MAX-T_MIN)
+    T_A = np.array(df_normal)
+
+
+
+    Y_list=[]
+    for j in range(len(df)):
+        w=np.array([[np.linalg.norm(T_A[j,:]-status_matrix[:,i])] for i in range(status_matrix.shape[1])])
+        Y_list.append(np.dot(status_matrix,np.dot(G_inv,w))[:,0])
+    Target_array = np.array(Y_list)
+    Target = pd.DataFrame(Target_array,index=df.index,columns=df.columns)
+    T_res = (Target*(T_MAX-T_MIN)+T_MIN)
+    diff = df - T_res
+    df_out= df.iloc[:,0:1].join(T_res.iloc[:,0:1],rsuffix="_simu").join(diff.iloc[:,0:1],rsuffix="_dif")
+
+    df_out['time']=pd.to_datetime(df_out.index)
+    df_out['time']=df_out['time'].apply(lambda x: x.value/1000000)
+
+
+    J = {S: list(df_out[S].values) for S in df_out}
     return HttpResponse(json.dumps(J))
 #    return HttpResponse('Get method used or somthing wrong')
  
