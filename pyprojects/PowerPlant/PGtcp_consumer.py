@@ -17,19 +17,13 @@ s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind(('127.0.0.1', 9999))
 s.listen(5)
 
-event = threading.Event()
 df = pd.DataFrame()
-
 
 def handler(signalnum, frame):
     global consumer, received_msg_counter
     print ("\nTotal",received_msg_counter,"messages processed.")
-    print ("Received SIGINT",signalnum,"closing Consumer.")
-    #consumer.close()  # move this line into def pg_consumer event condition
-    event.set()
-    t1.join()
-    #t2.join()      # t2 is not defined error
-    print ("consumer closed! exit sucessfully!")
+    print ("Received SIGINT",signalnum,"close Consumer and exit!")
+    consumer.close()
     sys.exit() # 自己走
 
 
@@ -69,9 +63,7 @@ def pg_consumer():
             print(datetime.fromtimestamp(msg.timestamp/1000))
             print ("message#",received_msg_counter)
         received_msg_counter +=1
-        if event.isSet():
-            consumer.close()
-            break        
+        
         
         
 
