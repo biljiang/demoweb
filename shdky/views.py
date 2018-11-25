@@ -110,22 +110,26 @@ class PGMonitor(TemplateView):
     from bokeh.models.sources import AjaxDataSource
     from bokeh.models import DatetimeTickFormatter
 
-    ''' 
+     
     ### add adatper func to adjust timezone for browsers
     adapter = CustomJS(code="""
-        var result = {time: [], AMBIENT_TEMPERATURE: [], AMBIENT_TEMPERATURE_simu: [], AMBIENT_TEMPERATURE_dif: []}
-        const rps = cb_data.response
-        result.time = rps.time
-        result.AMBIENT_TEMPERATURE = rps.AMBIENT_TEMPERATURE
-        result.AMBIENT_TEMPERATURE_simu = rps.AMBIENT_TEMPERATURE_simu
-        result.AMBIENT_TEMPERATURE_dif = rps.AMBIENT_TEMPERATURE_dif
+        var offset = new Date().getTimezoneOffset()* 60 * 1000;
+        var result = {time: [], AMBIENT_TEMPERATURE: [], AMBIENT_TEMPERATURE_simu: [], AMBIENT_TEMPERATURE_dif: []};
+        const rps = cb_data.response;
+        for (var i = 0; i < rps.time.length; i++) {
+            result.time.push((rps.time[i]-offset))
+        }
+        result.AMBIENT_TEMPERATURE = rps.AMBIENT_TEMPERATURE;
+        result.AMBIENT_TEMPERATURE_simu = rps.AMBIENT_TEMPERATURE_simu;
+        result.AMBIENT_TEMPERATURE_dif = rps.AMBIENT_TEMPERATURE_dif;
         return result
     """)
-    '''
+    
      
     #source = AjaxDataSource(data_url='https://182.150.63.68:10443/static/test.json',method='GET') # failed
     #source = AjaxDataSource(data_url='http://localhost:9090/static/test.json',method='GET') # failed, it seems unsuccessful when serving files directly
-    source = AjaxDataSource(data_url='https://182.150.63.68:10443/shdky/pg_ajax',method="GET",polling_interval=5000)
+    source = AjaxDataSource(data_url='https://182.150.63.68:10443/shdky/pg_ajax',method="GET",polling_interval=5000,adapter = adapter)
+    #source.js_onchange('data', adapter)
     #data = {
     #    'x' : [1, 2, 3],
     #    'y' : [9, 3, 2]
