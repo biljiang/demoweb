@@ -1,0 +1,22 @@
+[Unit]
+Description=PG_simu
+After=syslog.target
+
+[Service]
+Type=forking
+ExecStart= /home/techstar/PyProjects/PowerPlant/PG_simu.sh
+ExecReload= /home/techstar/PyProjects/PowerPlant/PG_simu.sh
+ExecStop=/usr/bin/killall -SIGINT PG_simu.py
+#ExecStop= /home/techstar/PyProjects/Daemonexperiments/daemon_ex2.py
+
+# Requires systemd version 211 or newer
+# RuntimeDirectory=jupyternotebook
+#Restart=always
+Restart=on-failure
+KillSignal=SIGQUIT
+#Type=notify
+StandardError=syslog
+NotifyAccess=all
+
+# [Install]
+# WantedBy=multi-user.target

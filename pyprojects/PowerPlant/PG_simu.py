@@ -7,7 +7,7 @@ import pandas as pd
 import time
 import signal
 
-producer = KafkaProducer(bootstrap_servers='m3:9092,m4:9092')
+producer = KafkaProducer(bootstrap_servers='m1:2181,m2:2181')
 
 
 def handler(signalnum, frame):

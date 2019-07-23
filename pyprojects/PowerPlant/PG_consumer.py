@@ -10,7 +10,7 @@ import daemon
 from datetime import datetime
 import threading,socket
 
-consumer = KafkaConsumer("PGsimulation",bootstrap_servers='m3:9092,m4:9092',group_id = 'PG_simu_con_1')
+consumer = KafkaConsumer("PGsimulation",bootstrap_servers='m1:2181,m2:2181',group_id = 'PG_simu_con_1')
 received_msg_counter = 0
 lock = threading.Lock()
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
